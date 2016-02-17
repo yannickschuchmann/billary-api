@@ -3,7 +3,6 @@ class Project < ApplicationRecord
   has_many :children, foreign_key: "parent_id", dependent: :destroy, class_name: "Project"
   has_many :time_entries, dependent: :destroy
 
-
   validates :name, presence: true
 
   def count_all_children(project = self, sum = 0)
