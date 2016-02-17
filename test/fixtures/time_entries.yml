@@ -1,0 +1,20 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  project: one
+  manual: false
+  started_at: 2016-02-17 16:11:36
+  stopped_at: 2016-02-17 16:11:46
+
+two:
+  project: one
+  manual: true
+  started_at: 2016-02-17 16:11:36
+  stopped_at: 2016-02-17 16:11:36
+
+
+running:
+  project: one
+  manual: false
+  started_at: 2016-02-17 16:11:36
+  stopped_at:
