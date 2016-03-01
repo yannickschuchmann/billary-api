@@ -13,4 +13,14 @@ class Project < ApplicationRecord
     return sum
   end
 
+  def duration(project = self, sum = 0)
+    project.time_entries.each do |time_entry|
+      sum += time_entry.duration
+    end
+    project.children.each do |child|
+      sum = duration(child, sum)
+    end
+    return sum
+  end
+
 end

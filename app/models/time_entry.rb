@@ -7,7 +7,11 @@ class TimeEntry < ApplicationRecord
   validate :stopped_greater_than_started, if: "stopped_at.present?"
 
   def duration
-    self.stopped_at - self.started_at
+    if self.stopped_at.present?
+      return self.stopped_at - self.started_at
+    else
+      return 0
+    end
   end
 
   def running?
