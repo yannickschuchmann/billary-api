@@ -5,7 +5,7 @@ class ProjectsController < ApplicationController
   def index
     @projects = Project.all
 
-    render json: @projects
+    render json: @projects, include: [("*." * 100)[0..-2]]
   end
 
   # GET /projects/1
