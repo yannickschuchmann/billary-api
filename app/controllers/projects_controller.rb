@@ -3,7 +3,7 @@ class ProjectsController < ApplicationController
 
   # GET /projects
   def index
-    @projects = Project.all
+    @projects = Project.top_level
 
     render json: @projects, include: [("*." * 100)[0..-2]]
   end
