@@ -2,6 +2,7 @@ class TimeEntry < ApplicationRecord
   belongs_to :project
 
   before_validation :set_started_at
+  before_create :stop_all_others, unless: "stopped_at.present?"
 
   validates :started_at, presence: true
   validate :stopped_greater_than_started, if: "stopped_at.present?"
@@ -18,9 +19,17 @@ class TimeEntry < ApplicationRecord
     self.stopped_at.blank?
   end
 
+  def self.stop_all
+    TimeEntry.all.where(stopped_at: nil).update_all(stopped_at: Time.now)
+  end
+
   private
   def set_started_at
     self.started_at = Time.now if self.started_at.blank?
+  end
+
+  def stop_all_others
+    TimeEntry.stop_all
   end
 
   def stopped_greater_than_started
