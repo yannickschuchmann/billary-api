@@ -5,7 +5,7 @@ class ProjectsController < ApplicationController
   def index
     @projects = Project.all
 
-    render json: @projects, include: [("*." * 100)[0..-2]]
+    render json: @projects, meta: {current_time_entry: TimeEntry.where(stopped_at: nil).first}, include: [("*." * 100)[0..-2]]
   end
 
   # GET /projects/1
