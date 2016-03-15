@@ -9,7 +9,7 @@ class TimeEntry < ApplicationRecord
 
   def duration
     if self.stopped_at.present?
-      return self.stopped_at - self.started_at
+      return ((self.stopped_at - self.started_at) / 60).ceil
     else
       return 0
     end
