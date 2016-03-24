@@ -33,7 +33,7 @@ Rails.application.configure do
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
 
-
+  config.action_dispatch.tld_length = 0
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 

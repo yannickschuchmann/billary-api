@@ -1,4 +1,4 @@
-class ProjectsController < ApplicationController
+class API::V1::ProjectsController < API::V1::ApplicationController
   before_action :set_project, only: [:show, :update, :destroy]
 
   # GET /projects
