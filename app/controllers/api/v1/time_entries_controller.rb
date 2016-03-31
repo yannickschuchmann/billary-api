@@ -1,4 +1,4 @@
-class API::V1::TimeEntriesController < API::V1::ApplicationController
+class API::V1::TimeEntriesController < API::V1::ApiController
   before_action :set_time_entry, only: [:show, :update, :destroy]
 
   # GET /time_entries

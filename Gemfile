@@ -6,6 +6,11 @@ gem 'rails', '>= 5.0.0.beta3', '< 5.1'
 
 gem 'active_model_serializers', git: "https://github.com/rails-api/active_model_serializers.git"
 
+# User auth
+gem 'devise', git: "https://github.com/plataformatec/devise.git", tag: "v4.0.0.rc2"
+gem 'devise_token_auth', :git => 'https://github.com/lynndylanhurley/devise_token_auth.git', :branch => 'master'
+gem 'omniauth'
+
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18'
 # Use Puma as the app server
