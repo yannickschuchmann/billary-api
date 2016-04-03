@@ -1,4 +1,5 @@
 class Project < ApplicationRecord
+  belongs_to :user
   belongs_to :parent, class_name: "Project", optional: true
   has_many :children, foreign_key: "parent_id", dependent: :destroy, class_name: "Project"
   has_many :time_entries, dependent: :destroy

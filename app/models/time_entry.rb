@@ -1,6 +1,7 @@
 class TimeEntry < ApplicationRecord
   belongs_to :project
-
+  belongs_to :user
+  
   before_validation :set_started_at
   before_validation :round_dates, if: "stopped_at.present?"
   before_create :stop_all_others, unless: "stopped_at.present?"

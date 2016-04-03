@@ -1,9 +1,17 @@
 class API::V1::ProjectsController < API::V1::ApiController
   before_action :set_project, only: [:show, :update, :destroy]
 
+  def projects_url obj
+    api_v1_projects_url obj
+  end
+
+  def project_url obj
+    api_v1_project_url obj
+  end
+
   # GET /projects
   def index
-    @projects = Project.all
+    @projects = current_user.projects.all
 
     render json: @projects, include: [("*." * 100)[0..-2]]
   end
@@ -15,7 +23,7 @@ class API::V1::ProjectsController < API::V1::ApiController
 
   # POST /projects
   def create
-    @project = Project.new(project_params)
+    @project = current_user.projects.build(project_params)
 
     if @project.save
       render json: @project, status: :created, location: @project
