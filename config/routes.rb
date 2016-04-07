@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resources :time_entries do
       end
       resources :projects
+      resources :clients
     end
   end
 

@@ -7,4 +7,5 @@ class User < ActiveRecord::Base
 
   has_many :projects, dependent: :destroy
   has_many :time_entries
+  has_many :clients, dependent: :destroy
 end
