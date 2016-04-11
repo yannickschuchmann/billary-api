@@ -5,7 +5,7 @@ class API::V1::ClientsController < ApplicationController
   def index
     @clients = Client.all
 
-    render json: @clients
+    render json: @clients.includes(:address)
   end
 
   # GET /clients/1
