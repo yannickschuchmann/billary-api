@@ -11,7 +11,11 @@ class API::V1::ProjectsController < API::V1::ApiController
 
   # GET /projects
   def index
-    @projects = current_user.projects.all
+    if query_params[:top_level]
+      @projects = current_user.projects.top_level
+    else
+      @projects = current_user.projects.all
+    end
 
     render json: @projects, include: [("*." * 100)[0..-2]]
   end
@@ -54,6 +58,10 @@ class API::V1::ProjectsController < API::V1::ApiController
 
     # Only allow a trusted parameter "white list" through.
     def project_params
-      params.require(:project).permit(:name, :parent_id)
+      params.require(:project).permit(:name, :parent_id, :client_id)
+    end
+
+    def query_params
+      params.permit(:top_level)
     end
 end

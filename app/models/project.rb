@@ -5,6 +5,7 @@ class Project < ApplicationRecord
   has_many :children, foreign_key: "parent_id", dependent: :destroy, class_name: "Project"
   has_many :time_entries, dependent: :destroy
 
+  default_scope { order('created_at DESC') }
   scope :top_level, -> {where(:parent_id => nil)}
 
   validates :name, presence: true
