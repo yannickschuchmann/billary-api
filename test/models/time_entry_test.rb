@@ -6,7 +6,7 @@ class TimeEntryTest < ActiveSupport::TestCase
   end
 
   test "duration" do
-    assert_equal time_entries(:one).duration, 10
+    assert_equal time_entries(:one).duration, 1
   end
 
   test "is running" do
