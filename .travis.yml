@@ -1,10 +1,16 @@
 language: ruby
 cache: bundler
 rvm:
-  - 2.3.0
+- 2.3.0
 env:
+  matrix:
   - DB=postgresql
+  global:
+    secure: bNFFyftevBWLVdUyHq4WUDKwq6t9I+XlcV71+0pGMsyw7v/XejEyoAM8bevIQeBhBSw/SmCVUCoi4ZR6edHulNe0y3ZOfuLNMTyXDvqgwKs8CDqDSxW/vw/+C6VSVrX7Rz5CTdqD9BxNs+Pn3zwTadQbv8U1pMMfqSIro76J3Sajdz1c2cKYvq+jA9AJIi7QChPBWwomK0nE0Y56Pf7iZ6UDp1mrslf4l9FI1pEMBsoNRJsJG4mLNmxbhPeq3vxy73XkW8wbSN4RrRzTDa/Uw4zNyskzHqay34m2+6jgZ1mp0pByizyUBQ0Ste5FexJ4FUkrtnoN+BYsiiKlAjPxzT6xrjZ5OalnSf3R11m08mdtYxIUvysCwWy7p4MxL8Zp4cbxOs/+eR1kvERqp1NsIHwYfAhLsgy+KoS2S5taWXol0Ww7OVS6LrsatjKMZvlgUaxCvF6rwUdr7HlAp0EVhBEaxqxcfIpK0h3ZCVHe3x3zQuNiJRYIOvvhKfzTk2vj8gRUTqWWxlOzmLAWBv2eLdZ3+cfcdSlYM4O7uO1SKV9+tIGHJJeQFPZpeW781MUELfhsFfLWHRssoT2i0oDF0n1ovmiaBPChM4NcP5C4np/1tQ20k7mV2QHIEz5H/rGoazy4TD1txfgve5Xq6OvL7G6T9lsElKnB52HaZDssutw=
 before_script:
-  - psql -c 'create database billary_test' -U postgres
+- psql -c 'create database billary_test' -U postgres
 script:
-  - bundle exec rails test
+- bundle exec rails test
+after_success:
+- "openssl aes-256-cbc -k $DEPLOY_KEY -in config/billary_rsa_enc_travis -d -a -out config/deploy_id_rsa"
+- "bundle exec cap deploy"
