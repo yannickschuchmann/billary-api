@@ -26,11 +26,18 @@ Rails.application.configure do
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = true
-  Rails.application.configure do
-    config.action_mailer.default_url_options = { :host => 'localhost' }
-    config.action_mailer.delivery_method = :smtp
-    config.action_mailer.smtp_settings = { :address => 'localhost', :port => 1025 }
-  end
+  # Rails.application.configure do
+  #   config.action_mailer.default_url_options = { :host => 'localhost' }
+  #   config.action_mailer.delivery_method = :smtp
+  #   config.action_mailer.smtp_settings = { :address => 'localhost', :port => 1025 }
+  # end
+
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
+  config.action_mailer.delivery_method = :mailgun
+  config.action_mailer.mailgun_settings = {
+      api_key: ENV['mailgun_api_key'],
+      domain: ENV['mailgun_domain']
+  }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

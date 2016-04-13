@@ -4,4 +4,5 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   config.secret_key = ENV["devise_secret_key"]
 
+  config.mailer_sender = 'Tiktak.io <support@tiktak.io>'
 end
