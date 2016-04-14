@@ -1,4 +1,4 @@
-class API::V1::ClientsController < ApplicationController
+class API::V1::ClientsController < API::V1::ApiController
   before_action :set_client, only: [:show, :update, :destroy]
 
   # GET /clients
