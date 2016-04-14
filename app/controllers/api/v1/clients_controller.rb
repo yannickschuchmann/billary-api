@@ -3,7 +3,7 @@ class API::V1::ClientsController < ApplicationController
 
   # GET /clients
   def index
-    @clients = Client.all
+    @clients = current_user.clients.all
 
     render json: @clients.includes(:address)
   end
@@ -15,7 +15,8 @@ class API::V1::ClientsController < ApplicationController
 
   # POST /clients
   def create
-    @client = Client.new(client_params)
+    @client = current_user.clients.build(client_params)
+
     if @client.save
       render json: @client, status: :created, location: api_v1_client_url(@client)
     else
