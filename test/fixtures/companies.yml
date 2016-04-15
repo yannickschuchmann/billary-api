@@ -9,7 +9,6 @@ one:
   vat_rate: 9.99
   address: one
   payment_address: one
-  user: one
 
 two:
   name: MyString
@@ -20,4 +19,3 @@ two:
   vat_rate: 9.99
   address: two
   payment_address: two
-  user: two
