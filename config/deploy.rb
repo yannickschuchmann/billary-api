@@ -1,5 +1,5 @@
 # Change these
-server '5.45.111.166', roles: [:web, :app, :db], primary: true
+server 'tiktak.io', roles: [:web, :app, :db], primary: true
 
 set :repo_url,        'git@billary-api.github.com:yannickschuchmann/billary-api.git'
 set :application,     'billary-api'
