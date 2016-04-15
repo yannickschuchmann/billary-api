@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160412135924) do
+ActiveRecord::Schema.define(version: 20160415103017) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,33 @@ ActiveRecord::Schema.define(version: 20160412135924) do
   end
 
   add_index "clients", ["user_id"], name: "index_clients_on_user_id", using: :btree
+
+  create_table "companies", force: :cascade do |t|
+    t.string   "name"
+    t.string   "web"
+    t.string   "email"
+    t.string   "phone"
+    t.string   "tax_id"
+    t.decimal  "vat_rate"
+    t.integer  "address_id"
+    t.integer  "payment_address_id"
+    t.integer  "user_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "companies", ["address_id"], name: "index_companies_on_address_id", using: :btree
+  add_index "companies", ["payment_address_id"], name: "index_companies_on_payment_address_id", using: :btree
+  add_index "companies", ["user_id"], name: "index_companies_on_user_id", using: :btree
+
+  create_table "payment_addresses", force: :cascade do |t|
+    t.string   "type"
+    t.string   "account_holder"
+    t.string   "iban"
+    t.string   "bic"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
 
   create_table "projects", force: :cascade do |t|
     t.string   "name"
@@ -97,6 +124,9 @@ ActiveRecord::Schema.define(version: 20160412135924) do
 
   add_foreign_key "addresses", "clients"
   add_foreign_key "clients", "users"
+  add_foreign_key "companies", "addresses"
+  add_foreign_key "companies", "payment_addresses"
+  add_foreign_key "companies", "users"
   add_foreign_key "projects", "clients"
   add_foreign_key "projects", "users"
   add_foreign_key "time_entries", "projects"
