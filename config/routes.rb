@@ -3,12 +3,14 @@ Rails.application.routes.draw do
     namespace :v1 do
       mount_devise_token_auth_for 'User', at: 'auth'
 
+      get "users/current" => "users#current"
       get "time_entries/current" => "time_entries#current"
       post "time_entries/stop" => "time_entries#stop"
       resources :time_entries do
       end
       resources :projects
       resources :clients
+      resources :companies
     end
   end
 
