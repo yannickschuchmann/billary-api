@@ -46,6 +46,6 @@ class API::V1::ClientsController < API::V1::ApiController
 
     # Only allow a trusted parameter "white list" through.
     def client_params
-      params.fetch(:client, {}).permit(:name, :number, address_attributes: [:id, :line_1, :line_2, :locality, :province, :postcode, :country])
+      params.fetch(:client, {}).permit(:name, :rate, :currency, :number, address_attributes: [:id, :line_1, :line_2, :locality, :province, :postcode, :country])
     end
 end
