@@ -1,16 +1,13 @@
 class API::V1::CompaniesController < API::V1::ApiController
   before_action :set_company, only: [:update]
 
-  # GET /companies
-  def index
-    @companies = Company.all
-
-    render json: @companies
-  end
-
   # PATCH/PUT /companies/1
   def update
-    if @company.update(company_params)
+    new_params = company_params
+    new_params[:address_attributes][:id] = @company.address_id
+    new_params[:payment_address_attributes][:id] = @company.payment_address_id
+
+    if @company.update(new_params)
       render json: @company
     else
       render json: @company.errors, status: :unprocessable_entity
@@ -29,8 +26,8 @@ class API::V1::CompaniesController < API::V1::ApiController
           :name,
           :web, :email, :phone,
           :tax_id, :vat_rate,
-          address_attributes: [:id, :line_1, :line_2, :locality, :province, :postcode, :country],
-          payment_address_attributes: [:id, :account_holder, :iban, :bic]
+          address_attributes: [:line_1, :line_2, :locality, :province, :postcode, :country],
+          payment_address_attributes: [:account_holder, :iban, :bic]
       )
     end
 end
