@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160415143028) do
+ActiveRecord::Schema.define(version: 20160417185755) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,30 @@ ActiveRecord::Schema.define(version: 20160415143028) do
   add_index "companies", ["address_id"], name: "index_companies_on_address_id", using: :btree
   add_index "companies", ["payment_address_id"], name: "index_companies_on_payment_address_id", using: :btree
   add_index "companies", ["user_id"], name: "index_companies_on_user_id", using: :btree
+
+  create_table "invoice_line_items", force: :cascade do |t|
+    t.integer  "project_id"
+    t.integer  "invoice_id"
+    t.decimal  "quantity",   precision: 4, scale: 2
+    t.string   "label"
+    t.integer  "rate_cents",                         default: 0, null: false
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
+  end
+
+  add_index "invoice_line_items", ["invoice_id"], name: "index_invoice_line_items_on_invoice_id", using: :btree
+  add_index "invoice_line_items", ["project_id"], name: "index_invoice_line_items_on_project_id", using: :btree
+
+  create_table "invoices", force: :cascade do |t|
+    t.string   "number"
+    t.integer  "client_id"
+    t.integer  "terms"
+    t.datetime "invoiced_at"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "invoices", ["client_id"], name: "index_invoices_on_client_id", using: :btree
 
   create_table "payment_addresses", force: :cascade do |t|
     t.string   "type"
@@ -129,6 +153,9 @@ ActiveRecord::Schema.define(version: 20160415143028) do
   add_foreign_key "companies", "addresses"
   add_foreign_key "companies", "payment_addresses"
   add_foreign_key "companies", "users"
+  add_foreign_key "invoice_line_items", "invoices"
+  add_foreign_key "invoice_line_items", "projects"
+  add_foreign_key "invoices", "clients"
   add_foreign_key "projects", "clients"
   add_foreign_key "projects", "users"
   add_foreign_key "time_entries", "projects"

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  number: MyString
+  client: one
+  terms: 1
+  invoiced_at: 2016-04-17 20:45:56
+
+two:
+  number: MyString
+  client: two
+  terms: 1
+  invoiced_at: 2016-04-17 20:45:56
