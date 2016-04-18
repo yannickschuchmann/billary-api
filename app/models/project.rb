@@ -1,13 +1,13 @@
 class Project < ApplicationRecord
+  default_scope { order('created_at DESC') }
+  scope :top_level, -> {where(:parent_id => nil)}
+
   belongs_to :user
   belongs_to :client, optional: true
   belongs_to :parent, class_name: "Project", optional: true
   has_many :children, foreign_key: "parent_id", dependent: :destroy, class_name: "Project"
   has_many :time_entries, dependent: :destroy
   has_many :invoice_line_items, dependent: :destroy
-
-  default_scope { order('created_at DESC') }
-  scope :top_level, -> {where(:parent_id => nil)}
 
   validates :name, presence: true
 
@@ -28,4 +28,6 @@ class Project < ApplicationRecord
     end
     return sum
   end
+
+
 end

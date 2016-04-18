@@ -1,4 +1,7 @@
 class TimeEntry < ApplicationRecord
+  scope :open, -> {where(:invoiced => false).where.not(:stopped_at => nil)}
+  scope :invoiced, -> {where(:invoiced => true)}
+
   belongs_to :project
   belongs_to :user
   
