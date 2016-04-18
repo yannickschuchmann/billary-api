@@ -1,0 +1,151 @@
+<style>
+  .line-items {
+    width: 100%;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+  }
+  .line-items th {
+    text-align: left;
+  }
+  .line-items th:last-child {
+    text-align: right;
+  }
+  .line-items td:last-child {
+    text-align: right;
+  }
+
+  .company-address {
+    font-size: 13px;
+    margin: 30px 0;
+  }
+
+  .client-address {
+    width: 58%;
+    float: left;
+    font-weight: bold;
+  }
+
+  .company-contact, .summary {
+    width: 42%;
+    float: right;
+  }
+
+  .clear {
+    clear: both;
+  }
+
+  .company-contact th, .summary th {
+    text-align: left;
+  }
+
+  .company-contact td, .summary td {
+    text-align: right;
+  }
+
+  .summary {
+    margin-top: 10px;
+    border-collapse: collapse;
+  }
+  .summary tr:last-child td, .summary tr:last-child th {
+    border-top: 1px solid #000;
+  }
+</style>
+
+<div class="company-address">
+  <%
+    address = @company.address
+    address_line = [
+        @company.name,
+        address.line_1 + (address.line_2.present? ? " " + address.line_2 : ""),
+        address.postcode + " " + address.locality,
+        address.province + ", " + address.country
+    ].join(" - ")
+  %>
+  <%= address_line %>
+</div>
+
+<div class="client-address">
+  <div class="name"><%= @client.name %></div>
+  <% address = @client.address %>
+  <div class="line_1"><%= address.line_1 %></div>
+  <% if address.line_1.present? %>
+      <div class="line_2"><%= address.line_2 %></div>
+  <% end %>
+  <div class="postcode"><%= address.postcode %> <%= address.locality %></div>
+  <div class="province"><%= address.province %>, <%= address.country %></div>
+</div>
+
+<table class="company-contact">
+  <tr>
+    <th>Web</th>
+    <td><%= @company.web %></td>
+  </tr>
+  <tr>
+    <th>E-Mail</th>
+    <td><%= @company.email %></td>
+  </tr>
+  <tr>
+    <th>Phone</th>
+    <td><%= @company.phone %></td>
+  </tr>
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr>
+    <th>Tax ID</th>
+    <td><%= @company.tax_id %></td>
+  </tr>
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr>
+    <th>Date</th>
+    <td><%= l(@invoice.invoiced_at, format: :long) %></td>
+  </tr>
+  <tr>
+    <th>Client number</th>
+    <td><%= @client.number %></td>
+  </tr>
+  <tr>
+    <th>Invoice number</th>
+    <td><%= @invoice.number %></td>
+  </tr>
+</table>
+<div class="clear"></div>
+
+<h1>Invoice <%= @invoice.number %></h1>
+
+<table class="line-items">
+  <tr>
+    <th>Pos</th>
+    <th>Description</th>
+    <th>Quantity</th>
+    <th>Unit price</th>
+    <th>Amount</th>
+  </tr>
+  <tr>
+    <% @invoice.line_items.each_with_index do |item, index| %>
+        <td><%= index + 1 %></td>
+        <td><%= item.label %></td>
+        <td><%= item.quantity.to_s + (item.project.present? ? " h" : "") %></td>
+        <td><%= item.rate.format(symbol: nil) %></td>
+        <td><%= (item.rate * item.quantity).format(symbol: nil) %></td>
+    <% end %>
+  </tr>
+</table>
+
+<table class="summary">
+  <tr>
+    <th>Subtotal</th>
+    <td><%= @invoice.price_without_vat.format(symbol: nil) %></td>
+  </tr>
+  <tr>
+    <th>VAT <%= @company.vat_rate %></th>
+    <td><%= @invoice.vat.format(symbol: nil) %></td>
+  </tr>
+  <tr>
+    <th>Total</th>
+    <td><%= @invoice.price.format %></td>
+  </tr>
+</table>
+<div class="clear"></div>

@@ -1,0 +1,27 @@
+<style>
+  .payment-address {
+    text-align: left;
+    font-size: 10px;
+  }
+  .payment-address th {
+    font-weight: normal;
+    padding-right: 30px;
+  }
+  .payment-address td, .payment-address th {
+    vertical-align: top;
+  }
+</style>
+<hr>
+<table class="payment-address">
+  <tr>
+    <th>Account holder</th>
+    <td><%= payment_address.account_holder %></td>
+  </tr>
+  <tr>
+    <th>Banking information</th>
+    <td>
+      IBAN: <%= payment_address.iban %><br>
+      BIC: <%= payment_address.bic %>
+    </td>
+  </tr>
+</table>

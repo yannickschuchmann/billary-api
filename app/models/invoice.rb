@@ -16,4 +16,8 @@ class Invoice < ApplicationRecord
   def price
     self.price_without_vat + self.vat
   end
+
+  def invoiced_at
+    read_attribute(:invoiced_at) or Date.today
+  end
 end
