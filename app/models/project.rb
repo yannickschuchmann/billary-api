@@ -8,6 +8,7 @@ class Project < ApplicationRecord
   has_many :children, foreign_key: "parent_id", dependent: :destroy, class_name: "Project"
   has_many :time_entries, dependent: :destroy
   has_many :invoice_line_items, dependent: :destroy
+  has_many :invoices, through: :invoice_line_items
 
   validates :name, presence: true
 
@@ -19,15 +20,26 @@ class Project < ApplicationRecord
     return sum
   end
 
-  def duration(project = self, sum = 0)
-    project.time_entries.each do |time_entry|
+  def duration(open = false, project = self, sum = 0)
+    entries = open ? project.time_entries.open : project.time_entries
+    entries.each do |time_entry|
       sum += time_entry.duration
     end
     project.children.each do |child|
-      sum = duration(child, sum)
+      sum = duration(open, child, sum)
     end
     return sum
   end
 
+  def duration_of_open_time_entries
+    self.duration(true)
+  end
+
+  def mark_open_time_entries_as_invoiced(project = self)
+    project.time_entries.open.update_all(invoiced: true)
+    project.children.each do |child|
+      child.mark_open_time_entries_as_invoiced
+    end
+  end
 
 end
