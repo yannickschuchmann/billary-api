@@ -12,10 +12,9 @@ class API::V1::InvoicesController < ActionController::Base
   def show
     @client = @invoice.client
     @company = @invoice.company
-    payment_address = @company.payment_address
+    payment_address = @company.payment_address unless @company.blank?
 
     respond_to do |format|
-      format.html
       format.pdf do
         render ({
                   pdf: "#{@client.name}-#{@invoice.created_at}",
@@ -38,7 +37,7 @@ class API::V1::InvoicesController < ActionController::Base
     @invoice = Invoice.new(invoice_params)
 
     if @invoice.save
-      render json: @invoice, status: :created, location: @invoice
+      render json: @invoice, status: :created, location: api_v1_invoice_url(@invoice)
     else
       render json: @invoice.errors, status: :unprocessable_entity
     end
