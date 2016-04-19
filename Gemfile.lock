@@ -183,6 +183,7 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
+    rubyzip (1.2.0)
     sixarm_ruby_unaccent (1.1.1)
     spring (1.6.4)
     sprockets (3.5.2)
@@ -233,6 +234,7 @@ DEPENDENCIES
   rack-cors
   rails (>= 5.0.0.beta3, < 5.1)
   redis (~> 3.0)
+  rubyzip
   spring
   tzinfo-data
   wicked_pdf

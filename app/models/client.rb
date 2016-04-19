@@ -15,12 +15,17 @@ class Client < ApplicationRecord
             project_id: project.id,
             quantity: quantity,
             label: project.name,
-            rate: self.rate
+            rate_cents: self.rate_cents
                                                   })
-        project.mark_open_time_entries_as_invoiced
       end
     end
-
-    invoice.save unless invoice.line_items.empty?
+    if invoice.line_items.present? and invoice.save
+      self.projects.top_level.each do |project|
+        project.mark_open_time_entries_as_invoiced(invoice)
+      end
+      return invoice
+    else
+      return nil
+    end
   end
 end

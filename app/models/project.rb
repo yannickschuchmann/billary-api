@@ -35,10 +35,10 @@ class Project < ApplicationRecord
     self.duration(true)
   end
 
-  def mark_open_time_entries_as_invoiced(project = self)
-    project.time_entries.open.update_all(invoiced: true)
-    project.children.each do |child|
-      child.mark_open_time_entries_as_invoiced
+  def mark_open_time_entries_as_invoiced(invoice)
+    self.time_entries.open.update_all(invoice_id: invoice.id)
+    self.children.each do |child|
+      child.mark_open_time_entries_as_invoiced(invoice)
     end
   end
 

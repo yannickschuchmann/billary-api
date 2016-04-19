@@ -1,10 +1,11 @@
 class TimeEntry < ApplicationRecord
-  scope :open, -> {where(:invoiced => false).where.not(:stopped_at => nil)}
-  scope :invoiced, -> {where(:invoiced => true)}
+  scope :open, -> {where(:invoice_id => nil).where.not(:stopped_at => nil)}
+  scope :invoiced, -> {where.not(:invoice_id => nil)}
 
   belongs_to :project
   belongs_to :user
-  
+  belongs_to :invoice, optional: true
+
   before_validation :set_started_at
   before_validation :round_dates, if: "stopped_at.present?"
   before_create :stop_all_others, unless: "stopped_at.present?"

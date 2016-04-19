@@ -6,8 +6,9 @@ Rails.application.routes.draw do
       get "users/current" => "users#current"
       get "time_entries/current" => "time_entries#current"
       post "time_entries/stop" => "time_entries#stop"
-      resources :time_entries do
-      end
+      get "invoices/generate" => "invoices#generate"
+
+      resources :time_entries
       resources :projects
       resources :clients
       resources :companies

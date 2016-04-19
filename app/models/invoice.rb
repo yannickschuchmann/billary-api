@@ -4,6 +4,7 @@ class Invoice < ApplicationRecord
   has_many :projects, through: :line_items
   has_one :user, through: :client
   has_one :company, through: :user
+  has_many :time_entries, dependent: :nullify
 
   def price_without_vat
     Money.new(self.line_items.sum("rate_cents * quantity"), self.client.currency)
@@ -20,4 +21,5 @@ class Invoice < ApplicationRecord
   def invoiced_at
     read_attribute(:invoiced_at) or Date.today
   end
+
 end
