@@ -41,6 +41,8 @@ class API::V1::InvoicesController < ActionController::Base
     end
     invoices.compact!
 
+    response.headers["X-Frame-Options"] = "ALLOWALL"
+
     unless invoices.blank?
       stringio = Zip::OutputStream.write_buffer do |zio|
         invoices.each do |invoice|
@@ -107,6 +109,6 @@ class API::V1::InvoicesController < ActionController::Base
 
     # Only allow a trusted parameter "white list" through.
     def invoice_params
-      params.fetch(:invoice, {})
+      params.fetch(:invoice, {}).permit(:id, :number, :terms, :invoiced_at, line_items_attributes: [:id, :quantity, :label, :rate])
     end
 end

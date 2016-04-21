@@ -1,5 +1,5 @@
 class InvoiceLineItem < ApplicationRecord
-  belongs_to :project
+  belongs_to :project, optional: true
   belongs_to :invoice
 
   def rate

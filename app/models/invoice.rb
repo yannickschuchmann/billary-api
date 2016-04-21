@@ -6,6 +6,9 @@ class Invoice < ApplicationRecord
   has_one :company, through: :user
   has_many :time_entries, dependent: :nullify
 
+  accepts_nested_attributes_for :line_items
+
+
   def price_without_vat
     Money.new(self.line_items.sum("rate_cents * quantity"), self.client.currency)
   end
