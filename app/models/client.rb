@@ -6,10 +6,10 @@ class Client < ApplicationRecord
   has_many :projects
   monetize :rate_cents, with_model_currency: :currency
 
-  def generate_invoice
+  def generate_invoice till
     invoice = self.invoices.build
     self.projects.top_level.each do |project|
-      quantity = project.duration_of_open_time_entries / 60.0 # minutes -> hours
+      quantity = project.duration_of_open_time_entries(till) / 60.0 # minutes -> hours
       if quantity > 0
         invoice.line_items << InvoiceLineItem.new({
             project_id: project.id,
@@ -21,7 +21,7 @@ class Client < ApplicationRecord
     end
     if invoice.line_items.present? and invoice.save
       self.projects.top_level.each do |project|
-        project.mark_open_time_entries_as_invoiced(invoice)
+        project.mark_open_time_entries_as_invoiced(invoice, till)
       end
       return invoice
     else

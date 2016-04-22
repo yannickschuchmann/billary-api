@@ -20,23 +20,24 @@ class Project < ApplicationRecord
     return sum
   end
 
-  def duration(open = false, project = self, sum = 0)
+  def duration(open = false, till = Time.now, project = self, sum = 0)
     entries = open ? project.time_entries.open : project.time_entries
+    entries = entries.where("stopped_at <= ?", till)
     entries.each do |time_entry|
       sum += time_entry.duration
     end
     project.children.each do |child|
-      sum = duration(open, child, sum)
+      sum = duration(open, till, child, sum)
     end
     return sum
   end
 
-  def duration_of_open_time_entries
-    self.duration(true)
+  def duration_of_open_time_entries(till = Time.now)
+    self.duration(true, till)
   end
 
-  def mark_open_time_entries_as_invoiced(invoice)
-    self.time_entries.open.update_all(invoice_id: invoice.id)
+  def mark_open_time_entries_as_invoiced(invoice, till = Time.now)
+    self.time_entries.open.where("stopped_at < ?", till).update_all(invoice_id: invoice.id)
     self.children.each do |child|
       child.mark_open_time_entries_as_invoiced(invoice)
     end

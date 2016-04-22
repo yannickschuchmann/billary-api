@@ -37,7 +37,8 @@ class API::V1::InvoicesController < ActionController::Base
   def generate
     clients = params[:client_ids].present? ? Client.where(id: params[:client_ids]) : Client.all
     invoices = clients.map do |client|
-      client.generate_invoice
+      till = ((params[:till].to_time + 1.day) || Time.now).beginning_of_day
+      client.generate_invoice(till)
     end
     invoices.compact!
 
@@ -68,9 +69,11 @@ class API::V1::InvoicesController < ActionController::Base
           zio << pdf
         end
       end
+      response.headers["files"] = invoices.length
       stringio.rewind
       send_data(stringio.sysread, :type => 'application/zip', :filename => "tiktak_invoices-#{Time.now.to_i}.zip")
     else
+      response.headers["files"] = 0
       head :ok
     end
 
