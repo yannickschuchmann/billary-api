@@ -3,7 +3,9 @@
 one:
   name: MyString
   number: 1
+  currency: EUR
 
 two:
   name: MyString
   number: 1
+  currency: EUR

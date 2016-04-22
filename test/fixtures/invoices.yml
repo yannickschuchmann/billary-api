@@ -8,6 +8,6 @@ one:
 
 two:
   number: MyString
-  client: two
+  client: one
   terms: 1
   invoiced_at: 2016-04-17 20:45:56
