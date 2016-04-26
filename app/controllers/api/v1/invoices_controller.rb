@@ -92,7 +92,12 @@ class API::V1::InvoicesController < ActionController::Base
 
   # PATCH/PUT /invoices/1
   def update
-    if @invoice.update(invoice_params)
+    data = invoice_params
+    data[:line_items_attributes].map do |line_item|
+      line_item[:rate_cents] = (line_item.delete(:rate).to_d.round(4).truncate(2) * 100).to_i
+      line_item
+    end
+    if @invoice.update(data)
       render json: @invoice
     else
       render json: @invoice.errors, status: :unprocessable_entity
@@ -112,6 +117,6 @@ class API::V1::InvoicesController < ActionController::Base
 
     # Only allow a trusted parameter "white list" through.
     def invoice_params
-      params.fetch(:invoice, {}).permit(:id, :number, :terms, :invoiced_at, line_items_attributes: [:id, :quantity, :label, :rate])
+      params.fetch(:invoice, {}).permit(:id, :number, :terms, :invoiced_at, line_items_attributes: [:id, :quantity, :label, :rate, :_destroy])
     end
 end

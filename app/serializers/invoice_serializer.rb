@@ -6,4 +6,6 @@ class InvoiceSerializer < ActiveModel::Serializer
     object.price.format(symbol: nil, no_cents_if_whole: true)
   end
   has_one :client, serializer: ClientSerializer
+  has_many :line_items, serializer: InvoiceLineItemSerializer
+
 end
