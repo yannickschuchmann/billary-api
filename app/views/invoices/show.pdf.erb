@@ -123,15 +123,15 @@
     <th>Unit price</th>
     <th>Amount</th>
   </tr>
-  <tr>
-    <% @invoice.line_items.each_with_index do |item, index| %>
-        <td><%= index + 1 %></td>
-        <td><%= item.label %></td>
-        <td><%= item.quantity.to_s + (item.project.present? ? " h" : "") %></td>
-        <td><%= item.rate.format(symbol: nil) %></td>
-        <td><%= (item.rate * item.quantity).format(symbol: nil) %></td>
-    <% end %>
-  </tr>
+  <% @invoice.line_items.each_with_index do |item, index| %>
+    <tr>
+      <td><%= index + 1 %></td>
+      <td><%= item.label %></td>
+      <td><%= item.quantity.to_s + (item.project.present? ? " h" : "") %></td>
+      <td><%= item.rate.format(symbol: nil) %></td>
+      <td><%= (item.rate * item.quantity).format(symbol: nil) %></td>
+    </tr>
+  <% end %>
 </table>
 
 <table class="summary">
