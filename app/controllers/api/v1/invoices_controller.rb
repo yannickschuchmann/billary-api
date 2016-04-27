@@ -117,6 +117,6 @@ class API::V1::InvoicesController < ActionController::Base
 
     # Only allow a trusted parameter "white list" through.
     def invoice_params
-      params.fetch(:invoice, {}).permit(:id, :number, :terms, :invoiced_at, line_items_attributes: [:id, :quantity, :label, :rate, :_destroy])
+      params.fetch(:invoice, {}).permit(:id, :client_id, :number, :terms, :invoiced_at, line_items_attributes: [:id, :quantity, :label, :rate, :_destroy])
     end
 end

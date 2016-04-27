@@ -48,6 +48,7 @@ group :development, :test do
   gem 'capistrano-bundler', require: false
   #gem 'capistrano3-puma',   require: false
   gem 'capistrano3-puma', github: "seuros/capistrano-puma", ref: "19a573e", require: false
+  gem 'awesome_print', require: "ap"
 end
 
 

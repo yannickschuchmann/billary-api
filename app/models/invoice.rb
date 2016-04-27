@@ -1,5 +1,5 @@
 class Invoice < ApplicationRecord
-  belongs_to :client
+  belongs_to :client, optional: false
   has_many :line_items, -> { order 'created_at asc' }, foreign_key: "invoice_id", class_name: "InvoiceLineItem", dependent: :destroy
   has_many :projects, through: :line_items
   has_one :user, through: :client

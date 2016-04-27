@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   has_many :clients, dependent: :destroy
   has_one :company, dependent: :destroy
   has_one :payment_address, through: :company
+  has_many :invoices, through: :clients
 
   after_create :create_initial_company
 
