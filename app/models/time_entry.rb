@@ -2,8 +2,8 @@ class TimeEntry < ApplicationRecord
   scope :open, -> {where(:invoice_id => nil).where.not(:stopped_at => nil)}
   scope :invoiced, -> {where.not(:invoice_id => nil)}
 
-  belongs_to :project
-  belongs_to :user
+  belongs_to :project, optional: false
+  belongs_to :user, optional: false
   belongs_to :invoice, optional: true
 
   before_validation :set_started_at
@@ -26,8 +26,11 @@ class TimeEntry < ApplicationRecord
     self.stopped_at.blank?
   end
 
-  def self.stop_all
-    TimeEntry.all.where(stopped_at: nil).update_all(stopped_at: Time.now)
+  def self.stop_all user_id
+    TimeEntry.all.where(stopped_at: nil, user_id: user_id).each do |entry|
+      entry.stopped_at = Time.now
+      entry.save
+    end
   end
 
   def round_dates
@@ -44,7 +47,7 @@ class TimeEntry < ApplicationRecord
 
 
   def stop_all_others
-    TimeEntry.stop_all
+    TimeEntry.stop_all self.user_id
   end
 
   def stopped_greater_than_started

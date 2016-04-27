@@ -1,5 +1,5 @@
 class InvoiceSerializer < ActiveModel::Serializer
-  attributes :id, :number, :terms, :created_at, :invoiced_at
+  attributes :id, :number, :terms, :created_at, :invoiced_at, :client_id
   attribute :price_without_symbol, key: :price
 
   def price_without_symbol
