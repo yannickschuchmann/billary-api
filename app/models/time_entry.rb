@@ -2,6 +2,8 @@ class TimeEntry < ApplicationRecord
   scope :open, -> {where(:invoice_id => nil).where.not(:stopped_at => nil)}
   scope :invoiced, -> {where.not(:invoice_id => nil)}
 
+  default_scope -> {order(:started_at)}
+
   belongs_to :project, optional: false
   belongs_to :user, optional: false
   belongs_to :invoice, optional: true
