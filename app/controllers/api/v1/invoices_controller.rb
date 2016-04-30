@@ -1,12 +1,11 @@
 require 'zip'
 
-class API::V1::InvoicesController < ActionController::Base
+class API::V1::InvoicesController < API::V1::ApiController
   before_action :set_invoice, only: [:show, :update, :destroy]
 
   # GET /invoices
   def index
-    @invoices = Invoice.all
-
+    @invoices = current_user.invoices
     render json: @invoices
   end
 
@@ -35,12 +34,14 @@ class API::V1::InvoicesController < ActionController::Base
   end
 
   def generate
-    clients = params[:client_ids].present? ? Client.where(id: params[:client_ids]) : Client.all
+    clients = params[:client_ids].present? ? current_user.clients.where(id: params[:client_ids]) : current_user.clients
     invoices = clients.map do |client|
       till = ((params[:till].to_time + 1.day) || Time.now).beginning_of_day
       client.generate_invoice(till)
     end
     invoices.compact!
+
+
 
     response.headers["X-Frame-Options"] = "ALLOWALL"
 
@@ -82,8 +83,7 @@ class API::V1::InvoicesController < ActionController::Base
   # POST /invoices
   def create
     @invoice = Invoice.new(invoice_params)
-
-    if @invoice.save
+    if @invoice.user == current_user && @invoice.save
       render json: @invoice, status: :created, location: api_v1_invoice_url(@invoice)
     else
       render json: @invoice.errors, status: :unprocessable_entity
@@ -92,7 +92,7 @@ class API::V1::InvoicesController < ActionController::Base
 
   # PATCH/PUT /invoices/1
   def update
-    if @invoice.update(invoice_params)
+    if @invoice.user == current_user && @invoice.update(invoice_params)
       render json: @invoice
     else
       render json: @invoice.errors, status: :unprocessable_entity
@@ -101,7 +101,7 @@ class API::V1::InvoicesController < ActionController::Base
 
   # DELETE /invoices/1
   def destroy
-    @invoice.destroy
+    @invoice.destroy if @invoice.user == current_user
   end
 
   private
