@@ -49,6 +49,7 @@ group :development, :test do
   #gem 'capistrano3-puma',   require: false
   gem 'capistrano3-puma', github: "seuros/capistrano-puma", ref: "19a573e", require: false
   gem 'awesome_print', require: "ap"
+  gem "rails-erd"
 end
 
 
