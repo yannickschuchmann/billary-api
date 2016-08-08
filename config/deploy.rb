@@ -24,7 +24,7 @@ set :puma_preload_app, true
 set :puma_worker_timeout, nil
 set :puma_init_active_record, true  # Change to false when not using ActiveRecord
 
-set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml', 'config/puma.rb', 'config/application.yml')
+set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml', 'config/puma.rb', 'config/application.yml', 'config/nginx.conf')
 
 # dirs we want symlinking to shared
 set :linked_dirs, %w{log tmp/cache vendor/bundle public/system public/ckeditor_assets}
