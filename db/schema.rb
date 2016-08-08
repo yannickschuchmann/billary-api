@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160419131705) do
+ActiveRecord::Schema.define(version: 20160808123655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,11 +63,11 @@ ActiveRecord::Schema.define(version: 20160419131705) do
   create_table "invoice_line_items", force: :cascade do |t|
     t.integer  "project_id"
     t.integer  "invoice_id"
-    t.decimal  "quantity",   precision: 4, scale: 2
+    t.decimal  "quantity",   precision: 10, scale: 2
     t.string   "label"
-    t.integer  "rate_cents",                         default: 0, null: false
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
+    t.integer  "rate_cents",                          default: 0, null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
   end
 
   add_index "invoice_line_items", ["invoice_id"], name: "index_invoice_line_items_on_invoice_id", using: :btree
